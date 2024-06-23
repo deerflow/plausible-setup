@@ -6,6 +6,8 @@ services:
     restart: always
     volumes:
       - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
   plausible_events_db:
     image: clickhouse/clickhouse-server:24.3.3.102-alpine
@@ -29,6 +31,10 @@ services:
       - plausible_events_db
     ports:
       - 127.0.0.1:8000:8000
+    environment:
+      - BASE_URL=${BASE_URL}
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - TOTP_VAULT_KEY=${TOTP_VAULT_KEY}
 
 volumes:
   db-data:
